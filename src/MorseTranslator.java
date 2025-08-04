@@ -78,59 +78,6 @@ public class MorseTranslator {
             decodeList.put(entry.getValue(), entry.getKey());
         }
         if(VERBOSE) System.out.println("decodeList = " + decodeList);
-        // // Letters
-        // decodeList.put(".-", 'a');
-        // decodeList.put("-...", 'b');
-        // decodeList.put("-.-.", 'c');
-        // decodeList.put("-..", 'd');
-        // decodeList.put(".", 'e');
-        // decodeList.put("..-.", 'f');
-        // decodeList.put("--.", 'g');
-        // decodeList.put("....", 'h');
-        // decodeList.put("..", 'i');
-        // decodeList.put(".---", 'j');
-        // decodeList.put("-.-", 'k');
-        // decodeList.put(".-..", 'l');
-        // decodeList.put("--", 'm');
-        // decodeList.put("-.", 'n');
-        // decodeList.put("---", 'o');
-        // decodeList.put(".--.", 'p');
-        // decodeList.put("--.-", 'q');
-        // decodeList.put(".-.", 'r');
-        // decodeList.put("...", 's');
-        // decodeList.put("-", 't');
-        // decodeList.put("..-", 'u');
-        // decodeList.put("...-", 'v');
-        // decodeList.put(".--", 'w');
-        // decodeList.put("-..-", 'x');
-        // decodeList.put("-.--", 'y');
-        // decodeList.put("--..", 'z');
-
-        // // Numbers
-        // decodeList.put("-----", '0');
-        // decodeList.put(".----", '1');
-        // decodeList.put("..---", '2');
-        // decodeList.put("...--", '3');
-        // decodeList.put("....-", '4');
-        // decodeList.put(".....", '5');
-        // decodeList.put("-....", '6');
-        // decodeList.put("--...", '7');
-        // decodeList.put("---..", '8');
-        // decodeList.put("----.", '9');
-
-        // // Valid Special Characters
-        // decodeList.put("..--..", '?');
-        // decodeList.put("-.-.--", '!');
-        // decodeList.put(""
-        // decodeList.put(
-        // decodeList.put(
-        // decodeList.put(
-        // decodeList.put(
-        // decodeList.put(
-        // decodeList.put(
-        // decodeList.put(
-
-            
     }
     
 
