@@ -1,10 +1,22 @@
 import java.util.HashMap;
+import java.util.Map;
 
 public class MorseTranslator {
-    // Hashmaps for Alphanumeric -> Morse (encode) and Morse -> Alphanumeric (decode)
+
+    // For Singleton design pattern -> should only ever have one MorseTranslator
+    private static MorseTranslator instance;
+    
+    // For detailed logging
+    public static boolean VERBOSE = true;
+
+    // Either between "encode" or "decode", determines what input the user is prompted for (tried using enums, shit sucked)
+    public String mode;
+
+    // Hashmaps for Alphanumeric -> Morse (encodeList) and Morse -> Alphanumeric (decodeList)
     public final static HashMap<Character, String> encodeList;
     static {
         encodeList = new HashMap<>();
+        // Letters
         encodeList.put('a', ".-");
         encodeList.put('b', "-...");
         encodeList.put('c', "-.-.");
@@ -32,6 +44,7 @@ public class MorseTranslator {
         encodeList.put('y', "-.--");
         encodeList.put('z', "--..");
 
+        // Numbers
         encodeList.put('0', "-----");
         encodeList.put('1', ".----");
         encodeList.put('2', "..---");
@@ -42,58 +55,84 @@ public class MorseTranslator {
         encodeList.put('7', "--...");
         encodeList.put('8', "---..");
         encodeList.put('9', "----.");
+
+        // Valid Special Characters
+        encodeList.put('?', "..--..");
+        encodeList.put('!', "-.-.--");
+        encodeList.put('.', ".-.-.-");
+        encodeList.put(',', "--..--");
+        encodeList.put(';', "-.-.-.");
+        encodeList.put(':', "---...");
+        encodeList.put('+', ".-.-.");
+        encodeList.put('-', "-....-");
+        encodeList.put('/', "-..-.");
+        encodeList.put('=', "-...-");
+
+        if(VERBOSE) System.out.println("encodeList = " + encodeList);
     }
     public final static HashMap<String, Character> decodeList;
     static {
         decodeList = new HashMap<>();
-        decodeList.put(".-", 'a');
-        decodeList.put("-...", 'b');
-        decodeList.put("-.-.", 'c');
-        decodeList.put("-..", 'd');
-        decodeList.put(".", 'e');
-        decodeList.put("..-.", 'f');
-        decodeList.put("--.", 'g');
-        decodeList.put("....", 'h');
-        decodeList.put("..", 'i');
-        decodeList.put(".---", 'j');
-        decodeList.put("-.-", 'k');
-        decodeList.put(".-..", 'l');
-        decodeList.put("--", 'm');
-        decodeList.put("-.", 'n');
-        decodeList.put("---", 'o');
-        decodeList.put(".--.", 'p');
-        decodeList.put("--.-", 'q');
-        decodeList.put(".-.", 'r');
-        decodeList.put("...", 's');
-        decodeList.put("-", 't');
-        decodeList.put("..-", 'u');
-        decodeList.put("...-", 'v');
-        decodeList.put(".--", 'w');
-        decodeList.put("-..-", 'x');
-        decodeList.put("-.--", 'y');
-        decodeList.put("--..", 'z');
+        // Copies encodeList in reverse: <K, V> pairs become <V, K>
+        for(Map.Entry<Character, String> entry : encodeList.entrySet()) {
+            decodeList.put(entry.getValue(), entry.getKey());
+        }
+        if(VERBOSE) System.out.println("decodeList = " + decodeList);
+        // // Letters
+        // decodeList.put(".-", 'a');
+        // decodeList.put("-...", 'b');
+        // decodeList.put("-.-.", 'c');
+        // decodeList.put("-..", 'd');
+        // decodeList.put(".", 'e');
+        // decodeList.put("..-.", 'f');
+        // decodeList.put("--.", 'g');
+        // decodeList.put("....", 'h');
+        // decodeList.put("..", 'i');
+        // decodeList.put(".---", 'j');
+        // decodeList.put("-.-", 'k');
+        // decodeList.put(".-..", 'l');
+        // decodeList.put("--", 'm');
+        // decodeList.put("-.", 'n');
+        // decodeList.put("---", 'o');
+        // decodeList.put(".--.", 'p');
+        // decodeList.put("--.-", 'q');
+        // decodeList.put(".-.", 'r');
+        // decodeList.put("...", 's');
+        // decodeList.put("-", 't');
+        // decodeList.put("..-", 'u');
+        // decodeList.put("...-", 'v');
+        // decodeList.put(".--", 'w');
+        // decodeList.put("-..-", 'x');
+        // decodeList.put("-.--", 'y');
+        // decodeList.put("--..", 'z');
 
-        decodeList.put("-----", '0');
-        decodeList.put(".----", '1');
-        decodeList.put("..---", '2');
-        decodeList.put("...--", '3');
-        decodeList.put("....-", '4');
-        decodeList.put(".....", '5');
-        decodeList.put("-....", '6');
-        decodeList.put("--...", '7');
-        decodeList.put("---..", '8');
-        decodeList.put("----.", '9');
+        // // Numbers
+        // decodeList.put("-----", '0');
+        // decodeList.put(".----", '1');
+        // decodeList.put("..---", '2');
+        // decodeList.put("...--", '3');
+        // decodeList.put("....-", '4');
+        // decodeList.put(".....", '5');
+        // decodeList.put("-....", '6');
+        // decodeList.put("--...", '7');
+        // decodeList.put("---..", '8');
+        // decodeList.put("----.", '9');
+
+        // // Valid Special Characters
+        // decodeList.put("..--..", '?');
+        // decodeList.put("-.-.--", '!');
+        // decodeList.put(""
+        // decodeList.put(
+        // decodeList.put(
+        // decodeList.put(
+        // decodeList.put(
+        // decodeList.put(
+        // decodeList.put(
+        // decodeList.put(
+
+            
     }
     
-    private static MorseTranslator instance;
-    public static boolean VERBOSE = true;
-
-    public static enum Mode {
-        ENCODE,
-        DECODE
-    }
-
-    public static Mode mode;
 
     // Singleton design pattern -> shouldn't be more than one of these, but the first call to getInstance() makes it.
     public static MorseTranslator getInstance() {
@@ -103,6 +142,21 @@ public class MorseTranslator {
         return instance;
     }
 
+    public void setMode(String s) {
+        switch(s) {
+            case "encode":
+                this.mode = "encode";
+                break;
+            
+            case "decode":
+                this.mode = "decode";
+                break;
+
+            default:
+                System.err.println("setMode() passed an invalid mode setting..");
+        }
+        if(VERBOSE) System.out.println("MorseTranslator mode set to: " + this.mode);
+    }
     // Encodes a single alphanumeric character to its counterpart in Morse code, and returns the encoded character.
     public static String encodeChar(Character c) {
         return encodeList.get(Character.toLowerCase(c));
@@ -116,19 +170,19 @@ public class MorseTranslator {
             if (encodedChar != null) {
                 encodedString += encodedChar + "|";
             } else if(c == ' ') {
-                encodedString += "/";
+                encodedString += " |";
             } else {
                 if(VERBOSE) System.out.println("\'" + c + "\'" + " not valid Morse character or space, omitting...");
             }
         }
-        if(VERBOSE) System.out.println("\"" + s + "\"" + " translated to:\n" + encodedString);
+        if(VERBOSE) System.out.println("\"" + s + "\"" + "\ntranslated to:\n" + encodedString);
         return encodedString;
     }
 
     // When passed a single Morse character (as a String), decode and return it.
     public static Character decodeChar(String s) {
-        if(s.length() > 5) {
-            System.err.println("Error, decodeChar() was passed a Morse sequence longer than the max of 5.");
+        if(s.length() > 6) {
+            System.err.println("Error, decodeChar() was passed a Morse sequence longer than the max of 6.");
         }
         return decodeList.get(s);
     }
@@ -136,13 +190,17 @@ public class MorseTranslator {
     public static String decode(String s) {
         String decodedString = "";
         boolean endOfWord = false;
-        String[] arr = s.split("|");
+        String[] arr = s.split("[|]");
         for (String str : arr) {
-            if(str.endsWith("/")) {
-                endOfWord = true;
-                str = str.substring(0, str.length()-1);  
+            if(VERBOSE) System.out.println(str);
+            if(str.equals(" ")) {
+                if(VERBOSE) System.out.println("End of word detected, adding space to decoded string...");
+                decodedString += " ";
+                continue;
             }
             Character decodedChar = decodeChar(str);
+
+            if(VERBOSE) System.out.println(decodedChar);
             if(decodedChar != null) {
                 decodedString += (endOfWord) ? decodedChar + " " : decodedChar;
             } else {
