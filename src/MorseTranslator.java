@@ -179,7 +179,7 @@ public class MorseTranslator {
         return encodedString;
     }
 
-    // When passed a single Morse character (as a String), decode and return it.
+    // When passed a single Morse character (as a String), decode and return it
     public static Character decodeChar(String s) {
         if(s.length() > 6) {
             System.err.println("Error, decodeChar() was passed a Morse sequence longer than the max of 6.");
@@ -187,26 +187,29 @@ public class MorseTranslator {
         return decodeList.get(s);
     }
 
+    // When passed a Morse sequence (chars separated by '|', words separated by a ' ') decodes and returns it
     public static String decode(String s) {
         String decodedString = "";
-        boolean endOfWord = false;
-        String[] arr = s.split("[|]");
+        // Converts the full message into an array of strings, based on the delimiter '|' (assumes that each character is surrounded by the '|')
+            // Note: .substring() is there to remove the first '|', as otherwise it becomes a leading empty String when .split("[|]") is called, wasting a loop.
+        String[] arr = s.substring(1).split("[|]");
         for (String str : arr) {
             if(VERBOSE) System.out.println(str);
+            // If the consumed String in the array is a space, add a space character to the decoded message and skip the rest of the loop.
             if(str.equals(" ")) {
-                if(VERBOSE) System.out.println("End of word detected, adding space to decoded string...");
+                if(VERBOSE) System.out.println("End of word detected, adding space to decoded string...\n");
                 decodedString += " ";
                 continue;
             }
             Character decodedChar = decodeChar(str);
 
             if(VERBOSE) System.out.println(decodedChar);
+
             if(decodedChar != null) {
-                decodedString += (endOfWord) ? decodedChar + " " : decodedChar;
+                decodedString +=  decodedChar;
             } else {
                 if(VERBOSE) System.out.println("\'" + str + "\'" + " not valid Morse sequence, omitting...");
             }
-            endOfWord = false;
         }
         return decodedString;
     }
