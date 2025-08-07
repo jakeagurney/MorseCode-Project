@@ -10,6 +10,7 @@ public class MorseTranslator {
     public static boolean VERBOSE = true;
 
     // Either between "encode" or "decode", determines what input the user is prompted for (tried using enums, shit sucked)
+    // Would like to change this to something less clunky, perhaps using the "State" design pattern?
     public String mode;
 
     // Hashmaps for Alphanumeric -> Morse (encodeList) and Morse -> Alphanumeric (decodeList)
@@ -105,12 +106,12 @@ public class MorseTranslator {
         if(VERBOSE) System.out.println("MorseTranslator mode set to: " + this.mode);
     }
     // Encodes a single alphanumeric character to its counterpart in Morse code, and returns the encoded character.
-    public static String encodeChar(Character c) {
+    public String encodeChar(Character c) {
         return encodeList.get(Character.toLowerCase(c));
     }
 
     // Encodes an alphanumeric String of any length to Morse code, returns the encoded String (chars split with '|').
-    public static String encode(String s) {
+    public String encode(String s) {
         String encodedString = "|";
         for (char c : s.toCharArray()) {
             String encodedChar = encodeChar(c);
@@ -127,7 +128,7 @@ public class MorseTranslator {
     }
 
     // When passed a single Morse character (as a String), decode and return it
-    public static Character decodeChar(String s) {
+    public Character decodeChar(String s) {
         if(s.length() > 6) {
             System.err.println("Error, decodeChar() was passed a Morse sequence longer than the max of 6.");
         }
@@ -135,7 +136,7 @@ public class MorseTranslator {
     }
 
     // When passed a Morse sequence (chars separated by '|', words separated by a ' ') decodes and returns it
-    public static String decode(String s) {
+    public String decode(String s) {
         String decodedString = "";
         // Converts the full message into an array of strings, based on the delimiter '|' (assumes that each character is surrounded by the '|')
             // Note: .substring() is there to remove the first '|', as otherwise it becomes a leading empty String when .split("[|]") is called, wasting a loop.
